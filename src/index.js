@@ -12,5 +12,3 @@ Object.defineProperty(window, 'shower', {
 contentLoaded(() => {
 	shower.start();
 });
-
-export default shower; // Ajoutez cette ligne
