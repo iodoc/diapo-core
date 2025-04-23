@@ -1,9 +1,9 @@
 import defaultOptions from './default-options.js';
 import Slide from './slide.js';
-import { defineReadOnly, ShowerError } from './utils.js';
+import { defineReadOnly, DiapoError } from './utils.js';
 import installModules from './modules/install.js';
 
-class Shower extends EventTarget {
+class Diapo extends EventTarget {
 	/**
 	 * @param {object=} options
 	 */
@@ -21,19 +21,19 @@ class Shower extends EventTarget {
 
 	/**
 	 * @param {object=} options
-	 * @throws {ShowerError}
+	 * @throws {DiapoError}
 	 */
 	configure(options) {
 		if (this._isStarted) {
-			throw new ShowerError('Shower should be configured before it is started.');
+			throw new DiapoError('Diapo should be configured before it is started.');
 		}
 
 		Object.assign(this.options, options);
 	}
 
 	/**
-	 * @throws {ShowerError}
-	 * @emits Shower#start
+	 * @throws {DiapoError}
+	 * @emits Diapo#start
 	 */
 	start() {
 		if (this._isStarted) return;
@@ -41,8 +41,8 @@ class Shower extends EventTarget {
 		const { containerSelector } = this.options;
 		this._container = document.querySelector(containerSelector);
 		if (!this._container) {
-			throw new ShowerError(
-				`Shower container with selector '${containerSelector}' was not found.`,
+			throw new DiapoError(
+				`Diapo container with selector '${containerSelector}' was not found.`,
 			);
 		}
 
@@ -104,15 +104,15 @@ class Shower extends EventTarget {
 
 	/**
 	 * Slide fills the maximum area.
-	 * @emits Shower#modechange
+	 * @emits Diapo#modechange
 	 */
 	enterFullMode() {
 		this._setMode('full');
 	}
 
 	/**
-	 * Shower returns into list mode.
-	 * @emits Shower#modechange
+	 * Diapo returns into list mode.
+	 * @emits Diapo#modechange
 	 */
 	exitFullMode() {
 		this._setMode('list');
@@ -137,7 +137,7 @@ class Shower extends EventTarget {
 
 	/**
 	 * @param {boolean} [isForce=false]
-	 * @emits Shower#prev
+	 * @emits Diapo#prev
 	 */
 	prev(isForce) {
 		const prev = new Event('prev', { cancelable: !isForce });
@@ -148,7 +148,7 @@ class Shower extends EventTarget {
 
 	/**
 	 * @param {boolean} [isForce=false]
-	 * @emits Shower#next
+	 * @emits Diapo#next
 	 */
 	next(isForce) {
 		const next = new Event('next', { cancelable: !isForce });
@@ -166,4 +166,4 @@ class Shower extends EventTarget {
 	}
 }
 
-export default Shower;
+export default Diapo;

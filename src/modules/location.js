@@ -1,7 +1,7 @@
-export default (shower) => {
+export default (diapo) => {
 	const composeURL = () => {
-		const search = shower.isFullMode ? '?full' : '';
-		const slide = shower.activeSlide;
+		const search = diapo.isFullMode ? '?full' : '';
+		const slide = diapo.activeSlide;
 		const hash = slide ? `#${slide.id}` : '';
 
 		return location.pathname + search + hash; // path is required to clear search params
@@ -10,9 +10,9 @@ export default (shower) => {
 	const applyURLMode = () => {
 		const isFull = new URLSearchParams(location.search).has('full');
 		if (isFull) {
-			shower.enterFullMode();
+			diapo.enterFullMode();
 		} else {
-			shower.exitFullMode();
+			diapo.exitFullMode();
 		}
 	};
 
@@ -20,11 +20,11 @@ export default (shower) => {
 		const id = location.hash.slice(1);
 		if (!id) return;
 
-		const target = shower.slides.find((slide) => slide.id === id);
+		const target = diapo.slides.find((slide) => slide.id === id);
 		if (target) {
 			target.activate();
-		} else if (!shower.activeSlide) {
-			shower.first(); // invalid hash
+		} else if (!diapo.activeSlide) {
+			diapo.first(); // invalid hash
 		}
 	};
 
@@ -36,15 +36,15 @@ export default (shower) => {
 	applyURL();
 	window.addEventListener('popstate', applyURL);
 
-	shower.addEventListener('start', () => {
+	diapo.addEventListener('start', () => {
 		history.replaceState(null, document.title, composeURL());
 	});
 
-	shower.addEventListener('modechange', () => {
+	diapo.addEventListener('modechange', () => {
 		history.replaceState(null, document.title, composeURL());
 	});
 
-	shower.addEventListener('slidechange', () => {
+	diapo.addEventListener('slidechange', () => {
 		const url = composeURL();
 		if (!location.href.endsWith(url)) {
 			history.pushState(null, document.title, url);

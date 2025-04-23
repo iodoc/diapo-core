@@ -1,15 +1,15 @@
 import { isInteractiveElement } from '../utils.js';
 
-export default (shower) => {
+export default (diapo) => {
 	const doSlideActions = (event) => {
-		const isShowerAction = !(event.ctrlKey || event.altKey || event.metaKey);
+		const isDiapoAction = !(event.ctrlKey || event.altKey || event.metaKey);
 
 		switch (event.key.toUpperCase()) {
 			case 'ENTER':
-				if (event.metaKey && shower.isListMode) {
+				if (event.metaKey && diapo.isListMode) {
 					if (event.shiftKey) {
 						event.preventDefault();
-						shower.first();
+						diapo.first();
 					}
 
 					break;
@@ -17,9 +17,9 @@ export default (shower) => {
 
 				event.preventDefault();
 				if (event.shiftKey) {
-					shower.prev();
+					diapo.prev();
 				} else {
-					shower.next();
+					diapo.next();
 				}
 				break;
 
@@ -30,9 +30,9 @@ export default (shower) => {
 			case 'H':
 			case 'K':
 			case 'P':
-				if (isShowerAction) {
+				if (isDiapoAction) {
 					event.preventDefault();
-					shower.prev(event.shiftKey);
+					diapo.prev(event.shiftKey);
 				}
 				break;
 
@@ -42,31 +42,31 @@ export default (shower) => {
 			case 'L':
 			case 'J':
 			case 'N':
-				if (isShowerAction) {
+				if (isDiapoAction) {
 					event.preventDefault();
-					shower.next(event.shiftKey);
+					diapo.next(event.shiftKey);
 				}
 				break;
 
 			case ' ':
-				if (isShowerAction && shower.isFullMode) {
+				if (isDiapoAction && diapo.isFullMode) {
 					event.preventDefault();
 					if (event.shiftKey) {
-						shower.prev();
+						diapo.prev();
 					} else {
-						shower.next();
+						diapo.next();
 					}
 				}
 				break;
 
 			case 'HOME':
 				event.preventDefault();
-				shower.first();
+				diapo.first();
 				break;
 
 			case 'END':
 				event.preventDefault();
-				shower.last();
+				diapo.last();
 				break;
 		}
 	};
@@ -74,36 +74,36 @@ export default (shower) => {
 	const doModeActions = (event) => {
 		switch (event.key.toUpperCase()) {
 			case 'ESCAPE':
-				if (shower.isFullMode) {
+				if (diapo.isFullMode) {
 					event.preventDefault();
-					shower.exitFullMode();
+					diapo.exitFullMode();
 				}
 				break;
 
 			case 'ENTER':
-				if (event.metaKey && shower.isListMode) {
+				if (event.metaKey && diapo.isListMode) {
 					event.preventDefault();
-					shower.enterFullMode();
+					diapo.enterFullMode();
 				}
 				break;
 
 			case 'P':
-				if (event.metaKey && event.altKey && shower.isListMode) {
+				if (event.metaKey && event.altKey && diapo.isListMode) {
 					event.preventDefault();
-					shower.enterFullMode();
+					diapo.enterFullMode();
 				}
 				break;
 
 			case 'F5':
-				if (event.shiftKey && shower.isListMode) {
+				if (event.shiftKey && diapo.isListMode) {
 					event.preventDefault();
-					shower.enterFullMode();
+					diapo.enterFullMode();
 				}
 				break;
 		}
 	};
 
-	shower.container.addEventListener('keydown', (event) => {
+	diapo.container.addEventListener('keydown', (event) => {
 		if (event.defaultPrevented) return;
 		if (isInteractiveElement(event.target)) return;
 

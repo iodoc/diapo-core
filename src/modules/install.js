@@ -9,20 +9,20 @@ import view from './view.js';
 import touch from './touch.js';
 import mouse from './mouse.js';
 
-export default (shower) => {
-	a11y(shower);
-	progress(shower);
-	keys(shower);
-	next(shower);
-	timer(shower); // should come after `keys` and `next`
-	title(shower);
-	location(shower); // should come after `title`
-	view(shower);
-	touch(shower);
-	mouse(shower);
+export default (diapo) => {
+	a11y(diapo);
+	progress(diapo);
+	keys(diapo);
+	next(diapo);
+	timer(diapo); // should come after `keys` and `next`
+	title(diapo);
+	location(diapo); // should come after `title`
+	view(diapo);
+	touch(diapo);
+	mouse(diapo);
 
 	// maintains invariant: active slide always exists in `full` mode
-	if (shower.isFullMode && !shower.activeSlide) {
-		shower.first();
+	if (diapo.isFullMode && !diapo.activeSlide) {
+		diapo.first();
 	}
 };

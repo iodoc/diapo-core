@@ -19,4 +19,4 @@ export const defineReadOnly = (target, props) => {
 	}
 };
 
-export class ShowerError extends Error {}
+export class DiapoError extends Error {}

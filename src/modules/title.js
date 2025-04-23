@@ -1,10 +1,10 @@
 const mdash = '\u2014';
 
-export default (shower) => {
+export default (diapo) => {
 	const { title } = document;
 	const updateTitle = () => {
-		if (shower.isFullMode) {
-			const slide = shower.activeSlide;
+		if (diapo.isFullMode) {
+			const slide = diapo.activeSlide;
 			const slideTitle = slide.title;
 			if (slideTitle) {
 				document.title = `${slideTitle} ${mdash} ${title}`;
@@ -15,7 +15,7 @@ export default (shower) => {
 		document.title = title;
 	};
 
-	shower.addEventListener('start', updateTitle);
-	shower.addEventListener('modechange', updateTitle);
-	shower.addEventListener('slidechange', updateTitle);
+	diapo.addEventListener('start', updateTitle);
+	diapo.addEventListener('modechange', updateTitle);
+	diapo.addEventListener('slidechange', updateTitle);
 };

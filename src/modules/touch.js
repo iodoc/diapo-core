@@ -1,4 +1,4 @@
-export default (shower) => {
+export default (diapo) => {
 	let exitFullScreen = false;
 	let clickable = false;
 
@@ -9,12 +9,12 @@ export default (shower) => {
 			const { target } = touch;
 			clickable = target.tabIndex !== -1;
 			if (!clickable) {
-				if (shower.isFullMode) {
+				if (diapo.isFullMode) {
 					if (event.cancelable) event.preventDefault();
 					if (window.innerWidth / 2 < x) {
-						shower.next();
+						diapo.next();
 					} else {
-						shower.prev();
+						diapo.prev();
 					}
 				}
 			}
@@ -23,12 +23,12 @@ export default (shower) => {
 		}
 	});
 
-	shower.container.addEventListener('touchend', (event) => {
+	diapo.container.addEventListener('touchend', (event) => {
 		if (exitFullScreen) {
 			event.preventDefault();
 			exitFullScreen = false;
-			shower.exitFullMode();
-		} else if (event.touches.length === 1 && !clickable && shower.isFullMode)
+			diapo.exitFullMode();
+		} else if (event.touches.length === 1 && !clickable && diapo.isFullMode)
 			event.preventDefault();
 	});
 };

@@ -1,13 +1,13 @@
 import parseTiming from './parse-timing.js';
 
-export default (shower) => {
+export default (diapo) => {
 	let id;
 
 	const resetTimer = () => {
 		clearTimeout(id);
-		if (shower.isListMode) return;
+		if (diapo.isListMode) return;
 
-		const slide = shower.activeSlide;
+		const slide = diapo.activeSlide;
 		const { visitCount, innerStepCount } = slide.state;
 		if (visitCount > 1) return;
 
@@ -16,17 +16,17 @@ export default (shower) => {
 
 		if (innerStepCount) {
 			const stepTiming = timing / (innerStepCount + 1);
-			id = setInterval(() => shower.next(), stepTiming);
+			id = setInterval(() => diapo.next(), stepTiming);
 		} else {
-			id = setTimeout(() => shower.next(), timing);
+			id = setTimeout(() => diapo.next(), timing);
 		}
 	};
 
-	shower.addEventListener('start', resetTimer);
-	shower.addEventListener('modechange', resetTimer);
-	shower.addEventListener('slidechange', resetTimer);
+	diapo.addEventListener('start', resetTimer);
+	diapo.addEventListener('modechange', resetTimer);
+	diapo.addEventListener('slidechange', resetTimer);
 
-	shower.container.addEventListener('keydown', (event) => {
+	diapo.container.addEventListener('keydown', (event) => {
 		if (!event.defaultPrevented) {
 			clearTimeout(id);
 		}

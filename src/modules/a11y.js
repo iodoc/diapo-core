@@ -8,13 +8,13 @@ const createLiveRegion = () => {
 	return liveRegion;
 };
 
-export default (shower) => {
-	const { container } = shower;
+export default (diapo) => {
+	const { container } = diapo;
 	const liveRegion = createLiveRegion();
 	container.appendChild(liveRegion);
 
 	const updateDocumentRole = () => {
-		if (shower.isFullMode) {
+		if (diapo.isFullMode) {
 			container.setAttribute('role', 'application');
 		} else {
 			container.removeAttribute('role');
@@ -22,17 +22,17 @@ export default (shower) => {
 	};
 
 	const updateLiveRegion = () => {
-		const slide = shower.activeSlide;
+		const slide = diapo.activeSlide;
 		if (slide) {
 			liveRegion.innerHTML = slide.element.innerHTML;
 		}
 	};
 
-	shower.addEventListener('start', () => {
+	diapo.addEventListener('start', () => {
 		updateDocumentRole();
 		updateLiveRegion();
 	});
 
-	shower.addEventListener('modechange', updateDocumentRole);
-	shower.addEventListener('slidechange', updateLiveRegion);
+	diapo.addEventListener('modechange', updateDocumentRole);
+	diapo.addEventListener('slidechange', updateLiveRegion);
 };

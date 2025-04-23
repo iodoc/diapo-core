@@ -1,5 +1,5 @@
-export default (shower) => {
-	const { stepSelector, activeSlideClass, visitedSlideClass } = shower.options;
+export default (diapo) => {
+	const { stepSelector, activeSlideClass, visitedSlideClass } = diapo.options;
 
 	let innerSteps;
 	let activeIndex;
@@ -8,9 +8,9 @@ export default (shower) => {
 	const isVisited = (step) => step.classList.contains(visitedSlideClass);
 
 	const setInnerStepsState = () => {
-		if (shower.isListMode) return;
+		if (diapo.isListMode) return;
 
-		const slide = shower.activeSlide;
+		const slide = diapo.activeSlide;
 
 		innerSteps = [...slide.element.querySelectorAll(stepSelector)];
 		activeIndex =
@@ -21,12 +21,12 @@ export default (shower) => {
 		slide.state.innerStepCount = innerSteps.length;
 	};
 
-	shower.addEventListener('start', setInnerStepsState);
-	shower.addEventListener('modechange', setInnerStepsState);
-	shower.addEventListener('slidechange', setInnerStepsState);
+	diapo.addEventListener('start', setInnerStepsState);
+	diapo.addEventListener('modechange', setInnerStepsState);
+	diapo.addEventListener('slidechange', setInnerStepsState);
 
-	shower.addEventListener('next', (event) => {
-		if (shower.isListMode || event.defaultPrevented || !event.cancelable) return;
+	diapo.addEventListener('next', (event) => {
+		if (diapo.isListMode || event.defaultPrevented || !event.cancelable) return;
 
 		activeIndex++;
 		innerSteps.forEach((step, index) => {
@@ -39,8 +39,8 @@ export default (shower) => {
 		}
 	});
 
-	shower.addEventListener('prev', (event) => {
-		if (shower.isListMode || event.defaultPrevented || !event.cancelable) return;
+	diapo.addEventListener('prev', (event) => {
+		if (diapo.isListMode || event.defaultPrevented || !event.cancelable) return;
 		if (activeIndex === -1 || activeIndex === innerSteps.length) return;
 
 		activeIndex--;

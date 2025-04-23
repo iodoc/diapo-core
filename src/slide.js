@@ -1,15 +1,15 @@
-import { defineReadOnly, ShowerError } from './utils.js';
+import { defineReadOnly, DiapoError } from './utils.js';
 
 class Slide extends EventTarget {
 	/**
-	 * @param {Shower} shower
+	 * @param {Diapo} diapo
 	 * @param {HTMLElement} element
 	 */
-	constructor(shower, element) {
+	constructor(diapo, element) {
 		super();
 
 		defineReadOnly(this, {
-			shower,
+			diapo: diapo,
 			element,
 			state: {
 				visitCount: 0,
@@ -18,13 +18,13 @@ class Slide extends EventTarget {
 		});
 
 		this._isActive = false;
-		this._options = this.shower.options;
+		this._options = this.diapo.options;
 
 		this.element.addEventListener('click', (event) => {
 			if (event.defaultPrevented) return;
 
 			this.activate();
-			this.shower.enterFullMode();
+			this.diapo.enterFullMode();
 		});
 	}
 
@@ -49,12 +49,12 @@ class Slide extends EventTarget {
 	 * Deactivates currently active slide (if any) and activates itself.
 	 * @emits Slide#deactivate
 	 * @emits Slide#activate
-	 * @emits Shower#slidechange
+	 * @emits Diapo#slidechange
 	 */
 	activate() {
 		if (this._isActive) return;
 
-		const prev = this.shower.activeSlide;
+		const prev = this.diapo.activeSlide;
 		if (prev) {
 			prev._deactivate();
 		}
@@ -64,7 +64,7 @@ class Slide extends EventTarget {
 
 		this._isActive = true;
 		this.dispatchEvent(new Event('activate'));
-		this.shower.dispatchEvent(
+		this.diapo.dispatchEvent(
 			new CustomEvent('slidechange', {
 				detail: { prev },
 			}),
@@ -72,12 +72,12 @@ class Slide extends EventTarget {
 	}
 
 	/**
-	 * @throws {ShowerError}
+	 * @throws {DiapoError}
 	 * @emits Slide#deactivate
 	 */
 	deactivate() {
-		if (this.shower.isFullMode) {
-			throw new ShowerError('In full mode, another slide should be activated instead.');
+		if (this.diapo.isFullMode) {
+			throw new DiapoError('In full mode, another slide should be activated instead.');
 		}
 
 		if (this._isActive) {

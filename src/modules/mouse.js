@@ -1,10 +1,10 @@
-export default (shower) => {
-	const { mouseHiddenClass, mouseInactivityTimeout } = shower.options;
+export default (diapo) => {
+	const { mouseHiddenClass, mouseInactivityTimeout } = diapo.options;
 
 	let hideMouseTimeoutId = null;
 
 	const cleanUp = () => {
-		shower.container.classList.remove(mouseHiddenClass);
+		diapo.container.classList.remove(mouseHiddenClass);
 		clearTimeout(hideMouseTimeoutId);
 		hideMouseTimeoutId = null;
 	};
@@ -15,27 +15,27 @@ export default (shower) => {
 		}
 
 		hideMouseTimeoutId = setTimeout(() => {
-			shower.container.classList.add(mouseHiddenClass);
+			diapo.container.classList.add(mouseHiddenClass);
 		}, mouseInactivityTimeout);
 	};
 
 	const initHideMouseIfInactiveModule = () => {
-		shower.container.addEventListener('mousemove', hideMouseIfInactive);
+		diapo.container.addEventListener('mousemove', hideMouseIfInactive);
 	};
 
 	const destroyHideMouseIfInactiveModule = () => {
-		shower.container.removeEventListener('mousemove', hideMouseIfInactive);
+		diapo.container.removeEventListener('mousemove', hideMouseIfInactive);
 		cleanUp();
 	};
 
 	const handleModeChange = () => {
-		if (shower.isFullMode) {
+		if (diapo.isFullMode) {
 			initHideMouseIfInactiveModule();
 		} else {
 			destroyHideMouseIfInactiveModule();
 		}
 	};
 
-	shower.addEventListener('start', handleModeChange);
-	shower.addEventListener('modechange', handleModeChange);
+	diapo.addEventListener('start', handleModeChange);
+	diapo.addEventListener('modechange', handleModeChange);
 };

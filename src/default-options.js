@@ -1,5 +1,5 @@
 export default {
-	containerSelector: '.shower',
+	containerSelector: '.diapo',
 	progressSelector: '.progress',
 	stepSelector: '.next',
 	fullModeClass: 'full',
