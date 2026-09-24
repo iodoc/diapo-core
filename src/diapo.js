@@ -51,6 +51,8 @@ class Diapo extends EventTarget {
 
 		this._isStarted = true;
 		this.dispatchEvent(new Event('start'));
+
+        this.publishTrackingEvent('start');
 	}
 
 	_initSlides() {
@@ -82,6 +84,16 @@ class Diapo extends EventTarget {
 		return super.dispatchEvent(event);
 	}
 
+    publishTrackingEvent(action, detail = {}) {
+        window.dispatchEvent(new CustomEvent('diapo:track', {
+            detail: { action, ...detail }
+        }));
+    }
+
+    get isStarted() {
+        return this._isStarted;
+    }
+
 	get container() {
 		return this._container;
 	}
@@ -108,6 +120,7 @@ class Diapo extends EventTarget {
 	 */
 	enterFullMode() {
 		this._setMode('full');
+        this.publishTrackingEvent('enterfullmode');
 	}
 
 	/**
@@ -116,6 +129,7 @@ class Diapo extends EventTarget {
 	 */
 	exitFullMode() {
 		this._setMode('list');
+        this.publishTrackingEvent('exitfullmode');
 	}
 
 	/**
@@ -125,7 +139,9 @@ class Diapo extends EventTarget {
 		const slide = this.slides[index];
 		if (slide) {
 			slide.activate();
+            this.publishTrackingEvent('goto', { index });
 		}
+
 	}
 
 	/**
@@ -133,6 +149,7 @@ class Diapo extends EventTarget {
 	 */
 	goBy(delta) {
 		this.goTo(this.activeSlideIndex + delta);
+        this.publishTrackingEvent('goby', { delta });
 	}
 
 	/**
