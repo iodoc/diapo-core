@@ -6,7 +6,7 @@ export default defineConfig({
     lib: {
       entry: 'src/index.js',
       name: 'diapo-core',
-      fileName: (format) => `diapo-core.${format}.js`,
+      fileName: () => `diapo-core.js`,
       formats: ['es'],
     },
     rollupOptions: {
