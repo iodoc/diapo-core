@@ -1,7 +1,8 @@
-import { contentLoaded } from './utils.js';
 import Diapo from './diapo.js';
 
-const options = document.currentScript.dataset;
+const script = document.querySelector("script[type='module'][data-diapo]");
+const { diapo: _, ...options } = script.dataset; // suppress data-diapo attribute
+
 const diapo = new Diapo(options);
 
 Object.defineProperty(window, 'diapo', {
@@ -9,6 +10,8 @@ Object.defineProperty(window, 'diapo', {
 	configurable: true,
 });
 
-contentLoaded(() => {
+if (document.readyState === "loading") {
+	document.addEventListener("DOMContentLoaded", () => diapo.start());
+} else {
 	diapo.start();
-});
+}
